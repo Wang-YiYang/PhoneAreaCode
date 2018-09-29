@@ -17,6 +17,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 /**
  * 创建：yiang
  * <p>
@@ -68,7 +69,7 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
 
         //读取数据
         String json = Utils.readAssetsTxt(this, "phoneAreaCode");
-        List<AreaCodeModel> datalist = Utils.gsonToList(json, AreaCodeModel.class);
+        List<AreaCodeModel> datalist = Utils.jsonToList(json);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

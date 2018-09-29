@@ -2,6 +2,8 @@
     package="com.yiang.phoneareacode" >
 
     <application>
-        <activity android:name=".PhoneAreaCodeActivity" />
+        <activity android:name=".PhoneAreaCodeActivity"
+            android:theme="@style/AppTheme"
+            />
     </application>
 </manifest>
