@@ -22,6 +22,7 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
     private List<AreaCodeModel> dataList = new ArrayList<>();
     private String stickHeaderColor;
     private OnItemClickListener onItemClickListener;
+    private boolean english;
 
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -80,6 +81,11 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
         return dataList.size();
     }
 
+    public void setEnglish(boolean english) {
+        this.english = english;
+        notifyDataSetChanged();
+    }
+
     class HeaderHolder extends RecyclerView.ViewHolder {
         TextView tvHeader;
 
@@ -107,7 +113,7 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void bindData(final AreaCodeModel model) {
-            tvArea.setText(model.getName());
+            tvArea.setText(english ? model.getEn() : model.getName());
             tvCode.setText("+" + model.getTel());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

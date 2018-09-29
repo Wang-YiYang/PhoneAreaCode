@@ -29,6 +29,17 @@
             android:textColor="@color/textColor"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/tvLan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="English"
+            android:textColor="@color/textColor"
+            android:textSize="16sp" />
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

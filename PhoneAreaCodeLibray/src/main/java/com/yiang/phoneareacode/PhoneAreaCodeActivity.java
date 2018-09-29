@@ -27,6 +27,7 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
 
     public static final int resultCode = 0x1110;
     public static final String DATAKEY = "AreaCodeModel";
+    private boolean isEnglish;
 
 
     public static Intent newInstance(Context context, String title, String titleTextColor, String titleColor, String stickHeaderColor) {
@@ -69,12 +70,12 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
 
         //读取数据
         String json = Utils.readAssetsTxt(this, "phoneAreaCode");
-        List<AreaCodeModel> datalist = Utils.jsonToList(json);
+        final List<AreaCodeModel> datalist = Utils.jsonToList(json);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        final RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sortList(datalist);
-        PhoneAreaCodeAdapter adapter = new PhoneAreaCodeAdapter();
+        final PhoneAreaCodeAdapter adapter = new PhoneAreaCodeAdapter();
         adapter.setDataList(datalist);
         if (!TextUtils.isEmpty(stickHeaderColor)) adapter.setStickHeaderColor(stickHeaderColor);
         recyclerView.setAdapter(adapter);
@@ -90,6 +91,18 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        final TextView tvLan = findViewById(R.id.tvLan);
+        tvLan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEnglish = !isEnglish;
+                tvLan.setText(isEnglish ? "中文" : "English");
+                sortList(datalist);
+                adapter.setEnglish(isEnglish);
+
+            }
+        });
     }
 
 
@@ -102,6 +115,10 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
         Collections.sort(datalist, new Comparator<AreaCodeModel>() {
                     @Override
                     public int compare(AreaCodeModel o1, AreaCodeModel o2) {
+                        if (isEnglish) {
+                            return Utils.getFirstPinYin(o1.getEn())
+                                    .compareTo(Utils.getFirstPinYin(o2.getEn()));
+                        }
                         return Utils.getFirstPinYin(o1.getName())
                                 .compareTo(Utils.getFirstPinYin(o2.getName()));
                     }
