@@ -33,9 +33,9 @@ public class TestActivity extends AppCompatActivity {
 
                 SelectPhoneCode.with(TestActivity.this)
                         .setTitle("区号选择")
-                        .setStickHeaderColor("#41B1FD")
-                        .setTitleBgColor("#ffffff")
-                        .setTitleTextColor("#454545")
+                        .setStickHeaderColor("#41B1FD")//粘性头部背景颜色
+                        .setTitleBgColor("#ffffff")//界面头部标题背景颜色
+                        .setTitleTextColor("#454545")//标题文字颜色
                         .select();
             }
         });
