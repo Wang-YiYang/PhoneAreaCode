@@ -93,12 +93,16 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
         });
 
         final TextView tvLan = findViewById(R.id.tvLan);
+        if (!TextUtils.isEmpty(titleTextColor))
+            tvLan.setTextColor(Color.parseColor(titleTextColor));
+
         tvLan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isEnglish = !isEnglish;
                 tvLan.setText(isEnglish ? "中文" : "English");
                 sortList(datalist);
+                adapter.setDataList(datalist);
                 adapter.setEnglish(isEnglish);
 
             }

@@ -3,6 +3,7 @@ package com.yiang.phoneareacode;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setDataList(List<AreaCodeModel> list) {
         if (list == null) return;
         dataList = list;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,10 +48,13 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
         long headerId = 0;
         if (english) {
             name = dataList.get(position).getEn();
+            headerId = name.substring(0, 1).hashCode();
         } else {
             name = dataList.get(position).getName();
+            headerId = Utils.getFirstPinYin(name).hashCode();
         }
-        headerId = Utils.getFirstPinYin(name).hashCode();
+
+
         return headerId;
     }
 
@@ -63,8 +68,15 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         HeaderHolder headerHolder = (HeaderHolder) holder;
-        String name = dataList.get(position).getName();
-        String header = Utils.getFirstPinYin(name);
+
+
+        String name = "", header = "";
+        if (english) {
+            name = dataList.get(position).getEn();
+        } else {
+            name = dataList.get(position).getName();
+        }
+        header = Utils.getFirstPinYin(name);
         headerHolder.bindData(header);
     }
 

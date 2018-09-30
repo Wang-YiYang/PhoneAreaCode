@@ -30,11 +30,12 @@ public class TestActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SelectPhoneCode.with(TestActivity.this)
-                        .setTitle("hah")
-                        .setStickHeaderColor("#0099FF")
-                        .setTitleBgColor("#D81E06")
-                        .setTitleTextColor("#ffffff")
+                        .setTitle("区号选择")
+                        .setStickHeaderColor("#41B1FD")
+                        .setTitleBgColor("#ffffff")
+                        .setTitleTextColor("#454545")
                         .select();
             }
         });
