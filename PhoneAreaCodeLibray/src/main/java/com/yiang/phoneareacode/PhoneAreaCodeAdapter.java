@@ -42,8 +42,14 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public long getHeaderId(int position) {
         if (dataList.size() == 0) return 0;
-        String name = dataList.get(position).getName();
-        long headerId = Utils.getFirstPinYin(name).hashCode();
+        String name = "";
+        long headerId = 0;
+        if (english) {
+            name = dataList.get(position).getEn();
+        } else {
+            name = dataList.get(position).getName();
+        }
+        headerId = Utils.getFirstPinYin(name).hashCode();
         return headerId;
     }
 
