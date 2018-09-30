@@ -21,3 +21,19 @@
                         .select();
 ```
 
+在调用界面重写
+
+```java
+   @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PhoneAreaCodeActivity.resultCode) {
+            if (data != null) {
+                AreaCodeModel model = (AreaCodeModel) data.getSerializableExtra(PhoneAreaCodeActivity.DATAKEY);
+                textView.setText(model.getName() + "  " + model.getTel());
+            }
+        }
+    }
+```
+
+
