@@ -12,8 +12,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bigkoo.quicksidebar.QuickSideBarTipsView;
+import com.bigkoo.quicksidebar.QuickSideBarView;
+import com.bigkoo.quicksidebar.listener.OnQuickSideBarTouchListener;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -23,11 +27,16 @@ import java.util.List;
  * <p>
  * 描述：
  */
-public class PhoneAreaCodeActivity extends AppCompatActivity {
+public class PhoneAreaCodeActivity extends AppCompatActivity implements OnQuickSideBarTouchListener {
 
+    private QuickSideBarView quickSideBarView;
+    private QuickSideBarTipsView quickSideBarTipsView;
     public static final int resultCode = 0x1110;
     public static final String DATAKEY = "AreaCodeModel";
     private boolean isEnglish;
+    private List<String> sections = new ArrayList<>();
+    private LinearLayoutManager layoutManager;
+    private List<AreaCodeModel> datalist;
 
 
     public static Intent newInstance(Context context, String title, String titleTextColor, String titleColor, String stickHeaderColor) {
@@ -44,6 +53,10 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_phoneareacode);
+
+        quickSideBarView = (QuickSideBarView) findViewById(R.id.quickSideBarView);
+        quickSideBarTipsView = (QuickSideBarTipsView) findViewById(R.id.quickSideBarTipsView);
+        quickSideBarView.setOnQuickSideBarTouchListener(this);
 
         String titleColor = getIntent().getStringExtra("titleColor");
         String stickHeaderColor = getIntent().getStringExtra("stickHeaderColor");
@@ -70,10 +83,11 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
 
         //读取数据
         String json = Utils.readAssetsTxt(this, "phoneAreaCode");
-        final List<AreaCodeModel> datalist = Utils.jsonToList(json);
+        datalist = Utils.jsonToList(json);
 
         final RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         sortList(datalist);
         final PhoneAreaCodeAdapter adapter = new PhoneAreaCodeAdapter();
         adapter.setDataList(datalist);
@@ -107,6 +121,8 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 
@@ -128,7 +144,47 @@ public class PhoneAreaCodeActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
+        sections.clear();
+        for (AreaCodeModel area : datalist) {
+            String section = "";
+            if (isEnglish) {
+                section = Utils.getFirstPinYin(area.getEn());
+            } else {
+                section = Utils.getFirstPinYin(area.getName());
+            }
+            if (!sections.contains(section)) sections.add(section);
+        }
+        quickSideBarView.setLetters(sections);
     }
 
 
+    @Override
+    public void onLetterChanged(String letter, int position, float y) {
+        quickSideBarTipsView.setText(letter, position, y);
+        layoutManager.scrollToPositionWithOffset(index(letter), 0);
+    }
+
+    private int index(String letter) {
+        for (int i = 0; i < datalist.size(); i++) {
+            AreaCodeModel area = datalist.get(i);
+            String section = "";
+            if (isEnglish) {
+                section = Utils.getFirstPinYin(area.getEn());
+            } else {
+                section = Utils.getFirstPinYin(area.getName());
+            }
+            if (TextUtils.equals(letter, section)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void onLetterTouching(boolean touching) {
+        quickSideBarTipsView.setVisibility(touching ? View.VISIBLE : View.GONE);
+
+    }
 }

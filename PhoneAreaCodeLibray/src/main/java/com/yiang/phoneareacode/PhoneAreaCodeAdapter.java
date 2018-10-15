@@ -41,22 +41,23 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
+
     @Override
     public long getHeaderId(int position) {
         if (dataList.size() == 0) return 0;
         String name = "";
-        long headerId = 0;
+        String headerId = "";
         if (english) {
             name = dataList.get(position).getEn();
-            headerId = name.substring(0, 1).hashCode();
+            headerId = name.substring(0, 1);
+
         } else {
             name = dataList.get(position).getName();
-            headerId = Utils.getFirstPinYin(name).hashCode();
+            headerId = Utils.getFirstPinYin(name);
         }
-
-
-        return headerId;
+        return headerId.hashCode();
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
@@ -132,7 +133,7 @@ public class PhoneAreaCodeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bindData(final AreaCodeModel model) {
             tvArea.setText(english ? model.getEn() : model.getName());
-            tvCode.setText("+" + model.getTel());
+            tvCode.setText("(+" + model.getTel() + ")");
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
