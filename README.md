@@ -8,7 +8,7 @@
 # 使用
 
 ```java
- implementation 'me.yiang:PhoneAreaCodeLibray:0.2.0'
+ implementation 'me.yiang:PhoneAreaCodeLibray:0.2.2'
 
  ```
 

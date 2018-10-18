@@ -426,8 +426,8 @@
         "tel":"592"
     },
     {
-        "shortName":"HK",
-        "name":"香港特别行政区",
+        "shortName":"ZGHK",
+        "name":"中国香港",
         "en":"Hongkong",
         "tel":"852"
     },
@@ -678,8 +678,8 @@
         "tel":"976"
     },
     {
-        "shortName":"MO",
-        "name":"澳门",
+        "shortName":"ZGAM",
+        "name":"中国澳门",
         "en":"Macao",
         "tel":"853"
     },
@@ -1062,8 +1062,8 @@
         "tel":"1809"
     },
     {
-        "shortName":"TW",
-        "name":"台湾省",
+        "shortName":"ZGTW",
+        "name":"中国台湾",
         "en":"Taiwan",
         "tel":"886"
     },
